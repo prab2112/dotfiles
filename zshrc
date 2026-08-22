@@ -21,7 +21,7 @@ alias la='eza -lah --group-directories-first --icons'
 alias lt='eza --tree --level=2 --icons'
 alias cat='batcat --paging=never'
 alias grep='grep --color=auto'
-alias find='fdfind'
+alias fd='fdfind'
 alias ..='cd ..'
 alias ...='cd ../..'
 
