@@ -1,3 +1,8 @@
+# ---- ssh-agent (via keychain, persists across terminals in this login session) ----
+if command -v keychain >/dev/null 2>&1; then
+    eval "$(keychain --eval --quiet --agents ssh id_ed25519)"
+fi
+
 # ---- history ----
 HISTSIZE=10000
 SAVEHIST=10000
