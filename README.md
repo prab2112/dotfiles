@@ -50,8 +50,21 @@ Not packaged in apt — install as static binaries into `~/.local/bin` (already 
 
 `neofetch`/`neofetch`-style banners are unmaintained upstream — `fastfetch` is the maintained, much faster replacement and is what `zshrc` invokes.
 
+### tmux plugins (session persistence)
+
+`tmux.conf` declares `tmux-resurrect` + `tmux-continuum` (auto-saves session layout every 15 min and restores it on tmux start, so sessions survive a WSL/Windows restart), managed via [tpm](https://github.com/tmux-plugins/tpm):
+
+```
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+~/.tmux/plugins/tpm/scripts/install_plugins.sh
+```
+
+(Or, inside tmux, `prefix + I` to install/update plugins declared in `tmux.conf`.)
+
 ## Notes
 
 - The SDKMAN block in `zshrc` must stay at the end of the file (SDKMAN's own requirement) — keep any new `source`/`eval` lines above it, not below.
 - `ls` is a shell function, not a plain alias: eza's `-t` flag takes a value (`--sort=modified`) instead of being a boolean like GNU `ls -t`, so combos like `-lrt` would otherwise fail with `Flag -t needs a value`. The function rewrites any `t` embedded in a short-flag cluster into `--sort=modified` automatically.
 - tmux clipboard integration requires `win32yank.exe` to be reachable from WSL (WSL interop must be enabled, which is the default).
+- `ll`/`la`/`lt` deliberately don't pass eza's `--icons` flag — this system has no Nerd Font installed (matching starship's no-nerd-font preset), so icon glyphs would just render as broken boxes. Only re-add `--icons` after installing a Nerd Font in Windows Terminal, and consider switching starship to a nerd-font preset at the same time.
+- `zshrc`'s locale block only sets `LANG`/`LC_ALL` to `en_US.UTF-8` once that locale actually exists (checked via `locale -a`); the system currently defaults to `C.UTF-8`. To generate it: `sudo locale-gen en_US.UTF-8 && sudo update-locale LANG=en_US.UTF-8`.

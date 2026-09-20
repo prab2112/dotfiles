@@ -19,6 +19,15 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # ---- keybindings ----
 bindkey -e
 
+# ---- locale ----
+# only set once en_US.UTF-8 is actually generated (sudo locale-gen en_US.UTF-8 &&
+# sudo update-locale) -- otherwise leave the C.UTF-8 default alone rather than
+# pointing LANG at a locale that doesn't exist yet.
+if locale -a 2>/dev/null | grep -qi '^en_US\.utf8$'; then
+    export LANG=en_US.UTF-8
+    export LC_ALL=en_US.UTF-8
+fi
+
 # ---- editor / direnv ----
 export EDITOR="$(command -v nvim || command -v vim)"
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
@@ -42,9 +51,9 @@ ls() {
     (( sort_modified )) && args+=(--sort=modified)
     command eza --group-directories-first "${args[@]}"
 }
-alias ll='eza -lh --group-directories-first --icons'
-alias la='eza -lah --group-directories-first --icons'
-alias lt='eza --tree --level=2 --icons'
+alias ll='eza -lh --group-directories-first'
+alias la='eza -lah --group-directories-first'
+alias lt='eza --tree --level=2'
 alias cat='batcat --paging=never'
 alias grep='grep --color=auto'
 alias fd='fdfind'
